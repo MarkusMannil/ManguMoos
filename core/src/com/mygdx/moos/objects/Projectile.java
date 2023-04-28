@@ -7,7 +7,7 @@ public class Projectile {
     public float projectileX;
     public float projectileY;
     public Sprite sprite;
-    public float speed = 9.0f;
+    public float speed = 5.0f;
     public Player player;
 
     public float destinationX;
@@ -19,7 +19,7 @@ public class Projectile {
     public Projectile(Player player, float destinationX, float destinationY) {
         this.projectileX = player.playerX + 19;
         this.projectileY = player.playerY + 59;
-        this.sprite = new Sprite(new Texture("bullet2.png"));
+        this.sprite = new Sprite(new Texture("bullet.png"));
         this.player = player;
         this.destinationX = player.playerX + destinationX;
         this.destinationY = player.playerY + destinationY;
