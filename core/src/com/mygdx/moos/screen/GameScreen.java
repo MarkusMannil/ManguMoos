@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 public class GameScreen extends InputAdapter implements Screen {
 
+    GeimClass geimClass;
     OrthographicCamera camera;
     Player player;
 
@@ -66,6 +67,68 @@ public class GameScreen extends InputAdapter implements Screen {
         pause = false;
         border = new Texture("assets/border.png");
     }
+    public void  generateMap(int n){
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                layers.add(new MegaTile(i, j).generateMapLayer());
+            }
+        }
+
+    }
+
+    public void generalUpdate(float delta,float stateTime) {
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            player.aPressed(delta,stateTime);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            player.wPressed(delta);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            player.sPressed(delta);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            player.dPressed(delta,stateTime);
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.M)){
+            camera.zoom += 2;
+            System.out.println("zoom +?");
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.N)){
+            camera.zoom -= 2;
+        }
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+
+            playerProjectiles.add(player.leftClickPressed(delta));
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            pause = true;
+            pause();
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            
+        }
+        for (int i = 0; i < playerProjectiles.size(); i++) {
+            boolean arrived = playerProjectiles.get(i).move(delta);
+
+            for (Player p1 : enteties) {
+                if (p1.isColliding(playerProjectiles.get(i).projectileX, playerProjectiles.get(i).projectileY)) {
+                    System.out.println("HIT");
+                    arrived = true;
+                    break;
+                }
+            }
+            if (arrived) {
+                playerProjectiles.remove(playerProjectiles.get(i));
+                i--;
+            } else
+                batch.draw(playerProjectiles.get(i).sprite, playerProjectiles.get(i).projectileX, playerProjectiles.get(i).projectileY);
+        }
+    }
 
     @Override
     public void render(float delta) {
@@ -101,7 +164,7 @@ public class GameScreen extends InputAdapter implements Screen {
             playerProjectiles = new ArrayList<>();
         }
 
-
+        batch.draw(border, player.playerX - (Gdx.graphics.getWidth()/2) , player.playerY -(Gdx.graphics.getHeight()/2), 1920,1080);
         batch.draw(bad.sprite, bad.playerX, bad.playerY);
         batch.draw((player.animatsion.getKeyFrame(stateTime, true)), player.playerX, player.playerY, 80, 80);
 
@@ -117,7 +180,7 @@ public class GameScreen extends InputAdapter implements Screen {
 
     @Override
     public void pause() {
-
+        geimClass.setScreen(new PauseScreen(geimClass));
     }
 
     @Override
