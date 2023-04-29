@@ -170,7 +170,6 @@ public class GameScreen extends InputAdapter implements Screen {
 
         batch.end();
 
-
     }
 
     @Override
