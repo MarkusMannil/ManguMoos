@@ -6,14 +6,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.bullet.Bullet;
+import com.badlogic.gdx.maps.MapLayers;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.mygdx.moos.GeimClass;
+import com.mygdx.moos.MegaTile;
 import com.mygdx.moos.objects.Player;
-import com.mygdx.moos.objects.Projectile;
+import com.mygdx.moos.objects.PlayerProjectile;
 
 import java.util.ArrayList;
 
@@ -24,102 +26,84 @@ public class GameScreen extends InputAdapter implements Screen {
 
     Player bad;
     Batch batch;
-    ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+    MapLayers layers;
+    ArrayList<PlayerProjectile> playerProjectiles = new ArrayList<PlayerProjectile>();
 
     ArrayList<Player> enteties = new ArrayList<Player>();
     boolean facing_left = true;
+
+    float stateTime;
+
+    TiledMap map = new TiledMap();
+
+
+    MegaTile tile;
+
+    OrthogonalTiledMapRenderer renderer;
+
+    Texture border;
+
+    float mapLoading;
+    boolean pause;
+
+
+
+    public GameScreen(GeimClass geimClass)  {
+        this.geimClass = geimClass;
+        player = new Player(5000, 5000, new Sprite(new Texture("sprites/paadiAnts.png")), 80);
+        bad = new Player(5100, 5000, new Sprite(new Texture("bad_debug.png")), 65);
+    }
+
 
     @Override
     public void show() {
         camera = new OrthographicCamera();
         camera.setToOrtho(false);
-        batch = new SpriteBatch();
-        player = new Player(0, 0, new Sprite(new Texture("rott.png")), 80);
-        bad = new Player(700, 0, new Sprite(new Texture("bad_debug.png")), 65);
-
+        renderer = new OrthogonalTiledMapRenderer(map);
+        layers = map.getLayers();
+        generateMap(10);
         enteties.add(bad);
+        pause = false;
+        border = new Texture("assets/border.png");
     }
 
     @Override
     public void render(float delta) {
+        stateTime += delta;
         Gdx.gl.glClearColor(1, 1, 1, 0);
         ScreenUtils.clear(1, 1, 1, 0);
+        batch = renderer.getBatch();
+        //System.out.println(player.playerX +" "+ player.playerY);
+
         batch.setProjectionMatrix(camera.combined);
-
-
+        renderer.setView(camera);
+        camera.update();
+        renderer.render();
         batch.begin();
 
         camera.position.set(player.playerX, player.playerY, 0);
-        camera.update();
 
 
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            player.playerX -= delta * player.speed;
-            if (!facing_left) {
-                player.sprite.flip(true, false);
-                facing_left = !facing_left;
-            }
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            player.playerY += delta * player.speed;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            player.playerY -= delta * player.speed;
-
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            player.playerX += delta * player.speed;
-            if (facing_left) {
-                player.sprite.flip(true, false);
-                facing_left = !facing_left;
-            }
-        }
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            int mX = Gdx.input.getX() - (Gdx.graphics.getWidth() / 2);
-            int mY = Gdx.graphics.getHeight() - Gdx.input.getY() - (Gdx.graphics.getHeight() / 2);
-            Projectile projectile = new Projectile(player, mX, mY);
-            projectiles.add(projectile);
-            System.out.println(Gdx.input.getX());
-            System.out.println("player " + player.playerX + " " + player.playerY);
-            System.out.println(mX + " " + mY);
-
-
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            dispose();
-        }
-        for (Projectile p : projectiles) {
-            boolean arrived = p.move(delta);
-            batch.draw(p.sprite, p.projectileX, p.projectileY);
-        }
-
-        for (int i = 0; i < projectiles.size(); i++) {
-            boolean arrived = projectiles.get(i).move(delta);
-            batch.draw(projectiles.get(i).sprite, projectiles.get(i).projectileX, projectiles.get(i).projectileY);
-
-            for (Player p1 : enteties) {
-                if(p1.isColliding(projectiles.get(i).projectileX, projectiles.get(i).projectileY)){
-                    System.out.println("HIT");
-                    arrived = true;
-                    break;
-
+        if (pause) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+                pause = false;
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-
             }
-
-            if (arrived) {
-                projectiles.remove(projectiles.get(i));
-                i--;
-            }
+        } else {
+            generalUpdate(delta,stateTime);
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
-            projectiles = new ArrayList<>();
+            playerProjectiles = new ArrayList<>();
         }
 
 
         batch.draw(bad.sprite, bad.playerX, bad.playerY);
-        batch.draw(player.sprite, player.playerX, player.playerY);
+        batch.draw((player.animatsion.getKeyFrame(stateTime, true)), player.playerX, player.playerY, 80, 80);
 
         batch.end();
 

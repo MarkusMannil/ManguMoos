@@ -11,6 +11,10 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		config.setTitle("ManguMoos");
 		config.setWindowedMode(1920,1080);
+		config.setResizable(false);
 		new Lwjgl3Application(new GeimClass(), config);
 	}
 }
+
+
+
