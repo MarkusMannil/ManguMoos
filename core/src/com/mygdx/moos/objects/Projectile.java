@@ -12,7 +12,7 @@ public class Projectile  extends Entity{
 
     public Projectile(Entity entity,String filename, float distanceX, float distanceY,int height,int width,float speed, int attackRange) {
         super(entity.centerX, entity.centerY, filename, height, width,speed,attackRange);
-        this.sprite = new Sprite(new Texture("bullet.png"));
+        this.sprite = new Sprite(new Texture(filename));
         this.alfa = Math.atan((distanceY) / (distanceX));
         viewDirectionRight = distanceX > 0 ? 1 : -1 ;
         SINA = Math.sin(alfa);

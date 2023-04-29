@@ -78,9 +78,12 @@ public class GameScreen extends InputAdapter implements Screen {
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             int mX = (int)(player.entityX + Gdx.input.getX() - (Gdx.graphics.getWidth() / 2));//+ (int)(Math.random()*40));
             int mY = (int)(player.entityY + Gdx.graphics.getHeight() - Gdx.input.getY() - (Gdx.graphics.getHeight() / 2));// + (int)(Math.random()*40);
-            Projectile newPlayerProjectile = player.shootAtXY(mX,mY);
+            Projectile[] newPlayerProjectile = player.shootAtXY(mX,mY);
             if(newPlayerProjectile != null){
-                playerProjectiles.add(newPlayerProjectile);
+                for (Projectile projectile : newPlayerProjectile) {
+                    playerProjectiles.add(projectile);
+
+                }
             }
 
 
@@ -131,9 +134,12 @@ public class GameScreen extends InputAdapter implements Screen {
         if(bad.inRangeEntity(player)){
             bad.move(player.entityX - bad.entityX,player.entityY- bad.entityY,delta);
         }else{
-            Projectile newEnemyProjectile = bad.shootAtEntity(player);
-            if(newEnemyProjectile != null){
-                enemyProjectiles.add(newEnemyProjectile);
+            Projectile[] newEnemyProjectiles = bad.shootAtEntity(player);
+            if(newEnemyProjectiles != null){
+                for (Projectile enemyProjectile : newEnemyProjectiles) {
+                    enemyProjectiles.add(enemyProjectile);
+
+                }
             }
         }
         batch.draw(good.sprite, good.entityX, good.entityY);
