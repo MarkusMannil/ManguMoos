@@ -3,7 +3,7 @@ package com.mygdx.moos.objects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-public class Projectile {
+public class PlayerProjectile {
     public float projectileX;
     public float projectileY;
     public Sprite sprite;
