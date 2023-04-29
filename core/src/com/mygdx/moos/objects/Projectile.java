@@ -7,57 +7,54 @@ public class Projectile {
     public float projectileX;
     public float projectileY;
     public Sprite sprite;
-    public float speed = 5.0f;
+    public float speed = 50.0f;
     public Player player;
 
     public float destinationX;
 
     public float destinationY;
 
+    public double alfa;
+    public int direction;
+    public float distance;
+    public double SINA;
+    public double COSA;
+
+
 
 
     public Projectile(Player player, float destinationX, float destinationY) {
-        this.projectileX = player.playerX + 19;
-        this.projectileY = player.playerY + 59;
+        this.projectileX = player.playerX;
+        this.projectileY = player.playerY;
         this.sprite = new Sprite(new Texture("bullet.png"));
         this.player = player;
         this.destinationX = player.playerX + destinationX;
         this.destinationY = player.playerY + destinationY;
+        alfa = Math.atan((destinationY / projectileY) / (destinationX / projectileY));
+        direction = this.destinationX - projectileX > 0 ? 1 : -1 ;
+        SINA = Math.sin(alfa);
+        COSA = Math.cos(alfa);
+        distance = 0;
+
+    }
+
+    public float moveX(float delta){
+        return (float)(speed  * COSA * direction * delta) ;
+    }
+    public float moveY(float delta){
+        return (float)(speed  * SINA * direction * delta);
     }
 
     public boolean move(float delta){
         boolean isTrue = false;
-        if (projectileX - destinationX <= 0) {
-            if (Math.abs(projectileX - destinationX)/(speed * delta) > 1) {
-                projectileX += (Math.abs(projectileX - destinationX)) * speed * delta;
-            } else {
-                projectileX = destinationX;
-                isTrue = true;
-            }
-        } else if (projectileX - destinationX > 0) {
-            if (Math.abs(projectileX - destinationX)/(speed * delta) > 1) {
-                projectileX -= (Math.abs(projectileX - destinationX)) * speed * delta;
-            } else {
-                projectileX = destinationX;
-                isTrue = true;
-            }
-        }
-        if (projectileY - destinationY <= 0) {
-            if (Math.abs(projectileY - destinationY)/(speed * delta) > 1) {
-                projectileY += (Math.abs(projectileY - destinationY)) * speed * delta;
+        float X = moveX(delta);
+        float Y = moveY(delta);
+        projectileX += X;
+        projectileY += Y;
+        distance += Math.sqrt(X*X + Y*Y);
+        if(distance > 300){
 
-            } else {
-                projectileY = destinationY;
-                isTrue = true;
-            }
-        } else if (projectileY - destinationY > 0) {
-            if (Math.abs(projectileY - destinationY)/(speed * delta) > 1) {
-                projectileY -= (Math.abs(projectileY - destinationY)) * speed * delta;
-
-            } else {
-                projectileY = destinationY;
-                isTrue = true;
-            }
+            isTrue = true;
         }
         return isTrue;
     }
