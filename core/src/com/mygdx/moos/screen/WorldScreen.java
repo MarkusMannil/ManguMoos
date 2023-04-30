@@ -39,9 +39,13 @@ public class WorldScreen implements Screen {
     Texture border;
     Texture inv;
     Texture invShow;
+
+    Texture pressE1;
+    Texture pressE3;
+
     boolean pause;
     boolean invent = false;
-
+    int fishiGoal = 1;
     float stateTime;
 
     ArrayList<Vector2> colliders;
@@ -57,6 +61,11 @@ public class WorldScreen implements Screen {
         generateMap(25);
     }
 
+    public WorldScreen(GeimClass geimClass, Boat boat) {
+        this.geimClass = geimClass;
+        this.boat = boat;
+    }
+
 
     @Override
     public void show() {
@@ -70,6 +79,8 @@ public class WorldScreen implements Screen {
         border = new Texture("assets/border.png");
         inv = new Texture("assets/buttons/inventory.png");
         invShow = new Texture("assets/buttons/invShow.png");
+        pressE1 = new Texture("assets/pressE1.png");
+        pressE3 = new Texture("assets/pressE3.png");
         borderBatch = new SpriteBatch();
 
         //fishiGoal = (int) Math.round(Math.random()*12+3);
@@ -122,13 +133,19 @@ public class WorldScreen implements Screen {
             generalUpdate(delta, stateTime);
         }
 
+
+
         batch.end();
 
         //x=134
         //y=262
         borderBatch.setProjectionMatrix(UIcamera.combined);
         borderBatch.begin();
-
+        if (16 * 64 * 30 - 590 - 1500 < boat.boatX && 16 * 64 * 30 - 590 + 500 > boat.boatX && 16 * 64 * 30 - 1500 < boat.boatY && 16 * 64 * 30 + 500 > boat.boatY){
+            borderBatch.draw(pressE3, 50,50,500,200);
+        }else{
+            borderBatch.draw(pressE1, 50,50,500,200);
+        }
 
         borderBatch.draw(border, 0, 0, 1920, 1080);
         if (!invent) borderBatch.draw(inv, 1820, 980, 64, 64);

@@ -120,5 +120,5 @@ public class PauseScreen implements Screen {
 
     }
 
-    //hajutatud pause screen koos "exit to menu" ja "continue" nupuga
+
 }

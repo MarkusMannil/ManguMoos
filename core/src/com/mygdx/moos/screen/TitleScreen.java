@@ -20,7 +20,6 @@ public class TitleScreen implements Screen {
 
     Batch batch;
     GeimClass geimClass;
-    TransitionScreen transitionScreen;
     Stage stage;
 
 
@@ -59,7 +58,7 @@ public class TitleScreen implements Screen {
                 Gdx.input.getY() > WINDOW_HEIGHT - BUTTON_HEIGHT / 2 - 30 * 5 && Gdx.input.getY() < WINDOW_HEIGHT + BUTTON_HEIGHT / 2 - 30 * 5) {
             batch.draw(playButtonActive, WINDOW_WIDTH - BUTTON_WIDTH / 2, WINDOW_HEIGHT - BUTTON_HEIGHT / 2 + 120, BUTTON_WIDTH, BUTTON_HEIGHT);
             if (Gdx.input.isTouched()) {
-                geimClass.setScreen(geimClass.worldScreen);
+                geimClass.setScreen(geimClass.tutorialScreen);
             }
         } else {
             batch.draw(playButtonInactive, WINDOW_WIDTH - BUTTON_WIDTH / 2, WINDOW_HEIGHT - BUTTON_HEIGHT / 2 + 120, BUTTON_WIDTH, BUTTON_HEIGHT);

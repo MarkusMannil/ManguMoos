@@ -8,6 +8,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayers;
@@ -34,6 +35,7 @@ public class BoatFightScreen extends InputAdapter implements Screen {
     Player player; // -> Entity
     Batch batch;
     Batch uiBatch;
+    BitmapFont font;
     ArrayList<Obsticle> obsticles = new ArrayList<Obsticle>();
 
     ArrayList<Entity> enteties = new ArrayList<Entity>();
@@ -69,6 +71,8 @@ public class BoatFightScreen extends InputAdapter implements Screen {
 
     @Override
     public void show() {
+
+        font = new BitmapFont();
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false);
@@ -153,8 +157,12 @@ public class BoatFightScreen extends InputAdapter implements Screen {
         generalUpdate(delta, stateTime);
 
         batch.end();
+
+        font.getData().setScale(3, 3);
         uiBatch.begin();
         uiBatch.draw(border, 0, 0, 1920, 1080);
+        font.setColor(255, 255, 255, 1);
+        font.draw(uiBatch, "SPAM MOUSE1 TO SHOOT", 1920 / 2 - 200, 200);
         uiBatch.end();
     }
 

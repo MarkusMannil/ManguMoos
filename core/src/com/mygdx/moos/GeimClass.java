@@ -17,6 +17,7 @@ public class GeimClass extends Game {
 	public WorldScreen worldScreen;
 	public PrologScreen prologScreen;
 	public BoatFightScreen boatFightScreen;
+	public TutorialScreen tutorialScreen;
 
 	@Override
 	public void create() {
@@ -25,7 +26,9 @@ public class GeimClass extends Game {
 		worldScreen = new WorldScreen(this);
 		gameScreen = new GameScreen(this);
 		shapeRenderer = new ShapeRenderer();
+		tutorialScreen = new TutorialScreen(this);
 		prologScreen = new PrologScreen(this);
+
 		//boatFightScreen = new BoatFightScreen(this);
 
 		setScreen(titlescreen);
