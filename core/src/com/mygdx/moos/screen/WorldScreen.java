@@ -3,6 +3,7 @@ package com.mygdx.moos.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -201,6 +202,7 @@ public class WorldScreen implements Screen {
 
     @Override
     public void pause() {
+        sound.stop();
         geimClass.setScreen(new PauseScreen(geimClass, geimClass.worldScreen));
     }
 
@@ -246,10 +248,25 @@ public class WorldScreen implements Screen {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
             // DO SHIT
-            if ( 16 * 64 * 30 - 290 > boat.boatX && boat.boatX < 16 * 64 * 30 - 890 && 16 * 64 * 30 - 300 < boat.boatY && 16 * 64 * 30 + 300 > boat.boatY){
-                System.out.println("shop");
-            }
-            else if (boat.fishing()){
+            if (16 * 64 * 30 - 590 - 1500 < boat.boatX && 16 * 64 * 30 - 590 + 500 > boat.boatX && 16 * 64 * 30 - 1500 < boat.boatY && 16 * 64 * 30 + 500 > boat.boatY) {
+                sound.stop();
+                boolean yes = false;
+                if (fishiGoal <= boat.inventory.size()) {
+                    for (int i = fishiGoal - 1; i >= 0; i--) {
+                        boat.inventory.remove(boat.inventory.get(i));
+                    }
+                    yes = true;
+
+                    fishiGoal = (int)Math.round(Math.random()*12 + 3);
+                }
+
+
+                sound.stop();
+                geimClass.setScreen(new MerchantScreen(geimClass, fishiGoal, boat,yes));
+
+
+
+            } else if (boat.fishing()) {
                 double radius = Math.sqrt(Math.pow(Gdx.input.getX() - boat.startX, 2) + Math.pow(Gdx.input.getY() - boat.startY, 2));
                 sound.stop();
                 geimClass.setScreen(new BoatFightScreen(geimClass, radius));

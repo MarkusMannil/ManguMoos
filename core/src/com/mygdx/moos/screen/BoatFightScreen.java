@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -57,6 +58,8 @@ public class BoatFightScreen extends InputAdapter implements Screen {
     double radius;
 
     ArrayList<Vector2> colliders = new ArrayList<>();
+
+    Sound sound = Gdx.audio.newSound(Gdx.files.internal("assets/music/fightSong.mp3"));
 
     // toDo add randomised fish creation to screen constructor
     public BoatFightScreen(GeimClass geimClass, double radius) {
@@ -121,7 +124,9 @@ public class BoatFightScreen extends InputAdapter implements Screen {
 
         }
         System.out.println(enteties.size());
-
+        sound.stop();
+        long id = sound.play(1.0f);
+        sound.setLooping(id, true);
     }
 
     @Override
@@ -155,6 +160,7 @@ public class BoatFightScreen extends InputAdapter implements Screen {
 
     public void upDateEntity(Batch batch, float delta) {
         if(enteties.size() == 0){
+            sound.stop();
             geimClass.setScreen(geimClass.worldScreen);
         }
 
@@ -186,6 +192,7 @@ public class BoatFightScreen extends InputAdapter implements Screen {
     public void generalUpdate(float delta, float stateTime) {
         if(player.hp < 0){
             System.out.println("DEAD YOU");
+            sound.stop();
             geimClass.setScreen(geimClass.titlescreen);
         }
 

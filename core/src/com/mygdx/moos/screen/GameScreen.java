@@ -137,9 +137,6 @@ public class GameScreen extends InputAdapter implements Screen {
     public void render(float delta) {
         stateTime += delta;
 
-
-
-
         Gdx.gl.glClearColor(1, 1, 1, 0);
         ScreenUtils.clear(1, 1, 1, 0);
         batch = renderer.getBatch();
