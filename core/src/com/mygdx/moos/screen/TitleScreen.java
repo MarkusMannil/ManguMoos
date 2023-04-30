@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.mygdx.moos.GeimClass;
 
 
@@ -19,9 +20,12 @@ public class TitleScreen implements Screen {
 
     Batch batch;
     GeimClass geimClass;
+    TransitionScreen transitionScreen;
+    Stage stage;
 
-    private static final int BUTTON_WIDTH = 80*8;
-    private static final int BUTTON_HEIGHT = 34*8;
+
+    private static final int BUTTON_WIDTH = 80 * 8;
+    private static final int BUTTON_HEIGHT = 34 * 8;
 
     public TitleScreen(GeimClass geimClass) {
         this.geimClass = geimClass;
@@ -38,6 +42,7 @@ public class TitleScreen implements Screen {
         exitButtonInactive = new Texture("buttons/ilusEndNupp.png");
 
         batch = new SpriteBatch();
+        stage = new Stage();
     }
 
     @Override
@@ -50,11 +55,11 @@ public class TitleScreen implements Screen {
 
         batch.begin();
 
-        if(Gdx.input.getX()> WINDOW_WIDTH- BUTTON_WIDTH /2-30 && Gdx.input.getX()< WINDOW_WIDTH + BUTTON_WIDTH /2-30 &&
-                Gdx.input.getY()> WINDOW_HEIGHT- BUTTON_HEIGHT /2-30*5 && Gdx.input.getY()< WINDOW_HEIGHT + BUTTON_HEIGHT /2-30*5) {
-            batch.draw(playButtonActive, WINDOW_WIDTH - BUTTON_WIDTH /2, WINDOW_HEIGHT - BUTTON_HEIGHT /2+120, BUTTON_WIDTH, BUTTON_HEIGHT);
-            if(Gdx.input.isTouched()){
-                geimClass.setScreen(geimClass.gameScreen);
+        if (Gdx.input.getX() > WINDOW_WIDTH - BUTTON_WIDTH / 2 - 30 && Gdx.input.getX() < WINDOW_WIDTH + BUTTON_WIDTH / 2 - 30 &&
+                Gdx.input.getY() > WINDOW_HEIGHT - BUTTON_HEIGHT / 2 - 30 * 5 && Gdx.input.getY() < WINDOW_HEIGHT + BUTTON_HEIGHT / 2 - 30 * 5) {
+            batch.draw(playButtonActive, WINDOW_WIDTH - BUTTON_WIDTH / 2, WINDOW_HEIGHT - BUTTON_HEIGHT / 2 + 120, BUTTON_WIDTH, BUTTON_HEIGHT);
+            if (Gdx.input.isTouched()) {
+                geimClass.setScreen(geimClass.worldScreen);
             }
         } else {
             batch.draw(playButtonInactive, WINDOW_WIDTH - BUTTON_WIDTH / 2, WINDOW_HEIGHT - BUTTON_HEIGHT / 2 + 120, BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -69,9 +74,6 @@ public class TitleScreen implements Screen {
         } else {
             batch.draw(exitButtonInactive, WINDOW_WIDTH - BUTTON_WIDTH / 2, WINDOW_HEIGHT - 250, BUTTON_WIDTH, BUTTON_HEIGHT);
         }
-
-
-
         batch.end();
 
     }

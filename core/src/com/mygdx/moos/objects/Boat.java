@@ -66,8 +66,9 @@ public class Boat {
     }
 
     public void dPressed(float delta) {
-        boatX += delta * speed;
-        direction.x = -1;
+        boatX += delta * speed * 2;
+        direction.x = 1;
+        direction.y = 0;
 
     }
     public void draw(Batch batch) {

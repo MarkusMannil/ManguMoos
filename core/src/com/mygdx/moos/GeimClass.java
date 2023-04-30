@@ -2,14 +2,15 @@ package com.mygdx.moos;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.moos.screen.*;
 
 public class GeimClass extends Game {
-	public SpriteBatch batch;
-	Texture img;
+	public ShapeRenderer shapeRenderer;
 	public GameScreen gameScreen;
 	public TitleScreen titlescreen;
 	public PauseScreen pauseScreen;

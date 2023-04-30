@@ -9,8 +9,17 @@ import com.mygdx.moos.GeimClass;
 
 public class PauseScreen implements Screen {
 
+    public PauseScreen(GeimClass geimClass, Screen screen)  {
+        this.geimClass = geimClass;
+        this.screen = screen;
+    }
+
     public PauseScreen(GeimClass geimClass)  {
         this.geimClass = geimClass;
+    }
+
+    public Screen getScreen() {
+        return screen;
     }
 
     Texture resumeActive;
@@ -21,6 +30,7 @@ public class PauseScreen implements Screen {
 
     Batch batch;
     GeimClass geimClass;
+    Screen screen;
 
     private static final int BUTTON_WIDTH = 80*7;
     private static final int BUTTON_HEIGHT = 34*7;
@@ -52,11 +62,11 @@ public class PauseScreen implements Screen {
                 && Gdx.input.getY()>WINDOW_HEIGHT-BUTTON_HEIGHT/2 && Gdx.input.getY()<WINDOW_HEIGHT+BUTTON_HEIGHT/2){
             batch.draw(resumeInactive, WINDOW_WIDTH-BUTTON_WIDTH/2, WINDOW_HEIGHT-BUTTON_HEIGHT/2, BUTTON_WIDTH, BUTTON_HEIGHT);
             if(Gdx.input.isTouched()) {
-                System.out.println(geimClass.gameScreen.player.playerX + " " + geimClass.gameScreen.player.playerY + " YES");
-                geimClass.setScreen(geimClass.gameScreen);
+                if(getScreen().equals(geimClass.gameScreen)) geimClass.setScreen(geimClass.gameScreen);
+                else if(getScreen().equals(geimClass.worldScreen)) geimClass.setScreen(geimClass.worldScreen);
 
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -71,9 +81,9 @@ public class PauseScreen implements Screen {
         && Gdx.input.getY()>WINDOW_HEIGHT-BUTTON_HEIGHT/2+300 && Gdx.input.getY()<WINDOW_HEIGHT+BUTTON_HEIGHT/2+300){
             batch.draw(menuInactive, WINDOW_WIDTH-BUTTON_WIDTH/2, WINDOW_HEIGHT-BUTTON_HEIGHT/2-300, BUTTON_WIDTH, BUTTON_HEIGHT);
             if(Gdx.input.isTouched()) {
-                geimClass.setScreen(new TitleScreen(geimClass));
+                resume();
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -97,8 +107,7 @@ public class PauseScreen implements Screen {
 
     @Override
     public void resume() {
-        System.out.println(geimClass.gameScreen);
-        //geimClass.setScreen(geimClass.gameScreen);
+        geimClass.setScreen(new TitleScreen(geimClass));
     }
 
     @Override

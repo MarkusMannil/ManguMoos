@@ -21,6 +21,7 @@ public class GameScreen extends InputAdapter implements Screen {
 
     GeimClass geimClass;
     OrthographicCamera camera;
+    OrthographicCamera UIcamera;
     Player player;
 
     Player bad;
@@ -35,7 +36,6 @@ public class GameScreen extends InputAdapter implements Screen {
     float stateTime;
 
     TiledMap map = new TiledMap();
-
 
     MegaTile tile;
 
@@ -58,7 +58,10 @@ public class GameScreen extends InputAdapter implements Screen {
     @Override
     public void show() {
         camera = new OrthographicCamera();
+        UIcamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
         camera.setToOrtho(false);
+        UIcamera.setToOrtho(false);
         renderer = new OrthogonalTiledMapRenderer(map);
         layers = map.getLayers();
         generateMap(10);
@@ -141,7 +144,7 @@ public class GameScreen extends InputAdapter implements Screen {
         ScreenUtils.clear(1, 1, 1, 0);
         batch = renderer.getBatch();
         //System.out.println(player.playerX +" "+ player.playerY);
-
+        UIcamera.update();
         batch.setProjectionMatrix(camera.combined);
         renderer.setView(camera);
         camera.update();
@@ -168,7 +171,6 @@ public class GameScreen extends InputAdapter implements Screen {
             playerProjectiles = new ArrayList<>();
         }
 
-        batch.draw(border, player.playerX - (Gdx.graphics.getWidth()/2) , player.playerY -(Gdx.graphics.getHeight()/2), 1920,1080);
         batch.draw(bad.sprite, bad.playerX, bad.playerY);
         batch.draw((player.animatsion.getKeyFrame(stateTime, true)), player.playerX, player.playerY, 80, 80);
 
@@ -188,7 +190,7 @@ public class GameScreen extends InputAdapter implements Screen {
 
     @Override
     public void pause() {
-        geimClass.setScreen(new PauseScreen(geimClass));
+        geimClass.setScreen(new PauseScreen(geimClass, geimClass.gameScreen));
     }
 
     @Override
