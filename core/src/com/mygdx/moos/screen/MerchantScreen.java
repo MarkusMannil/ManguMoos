@@ -18,6 +18,16 @@ public class MerchantScreen implements Screen {
     @Override
     public void render(float delta) {
 
+        }
+        batch.begin();
+
+
+        font.getData().setScale(3, 3);
+        batch.draw(shop, 2, 2, 1920, 1080);
+        font.setColor(0, 0, 0, 1);
+        font.draw(batch, text, 1920 / 2 - 80, 200);
+
+        batch.end();
     }
 
     @Override

@@ -40,7 +40,7 @@ public class Entity {
     public float centerX;
     public float centerY;
 
-    public int hp = 15;
+    public int hp;
 
     //
     public Entity projectileType;

@@ -48,7 +48,7 @@ public class PlayerProjectile {
         this.projectileY = player.entityY;
         this.destinationX = player.entityX + destinationX;
         this.destinationY = player.entityY + destinationY;
-        this.sprite = new Sprite(TextureRegion.split(new Texture("sprites/bulletsBig.png"),32,20)[0][0]);
+        this.sprite = new Sprite(TextureRegion.split(new Texture("sprites/bulletsBig.png"),32,20)[0][(int)Math.round(Math.random()*2)]);
         this.enemy = player;
         alfa = Math.atan((destinationY / projectileY) / (destinationX / projectileY));
         direction = this.destinationX - projectileX > 0 ? 1 : -1 ;
@@ -60,8 +60,8 @@ public class PlayerProjectile {
 
     public PlayerProjectile(float projectileX, float projectileY, float destinationX, float destinationY) {
 
-        this.projectileX = projectileX;
-        this.projectileY = projectileY;
+        this.projectileX = projectileX + 40;
+        this.projectileY = projectileY + 40;
         this.destinationX = projectileX + destinationX;
         this.destinationY = projectileY + destinationY;
         this.sprite = new Sprite(TextureRegion.split(new Texture("sprites/bulletsBig.png"),32,20)[0][1]);

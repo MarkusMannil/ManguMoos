@@ -96,23 +96,23 @@ public class BoatFightScreen extends InputAdapter implements Screen {
             switch (typeOfEnemy) {
                 case 1:
                     //
-                    enteties.add(new Entity(40 * 64, 30 * 64 + (64*2*i),EntetyEnum.getEnumById(1).getSprite(), 60, 60, EntetyEnum.getEnumById(1).getSpeed(), 1000, EntetyEnum.getEnumById(1).getHp()));
+                    enteties.add(new Entity(40 * 64, 30 * 64 + (64*2*i),EntetyEnum.getEnumById(1).getSprite(), 60, 60, EntetyEnum.getEnumById(1).getSpeed(), (int) EntetyEnum.getEnumById(1).getAttackRange(), EntetyEnum.getEnumById(1).getHp()));
                     break;
                 case 2:
                     //
-                    enteties.add(new Entity(40 * 64, 30 * 64 + (64*2*i),EntetyEnum.getEnumById(2).getSprite(), 60, 60, EntetyEnum.getEnumById(2).getSpeed(), 1000, EntetyEnum.getEnumById(2).getHp()));
+                    enteties.add(new Entity(40 * 64, 30 * 64 + (64*2*i),EntetyEnum.getEnumById(2).getSprite(), 60, 60, EntetyEnum.getEnumById(2).getSpeed(), (int) EntetyEnum.getEnumById(2).getAttackRange(), EntetyEnum.getEnumById(2).getHp()));
                     break;
                 case 3:
                     //
-                    enteties.add(new Entity(40 * 64, 30 * 64 + (64*2*i),EntetyEnum.getEnumById(3).getSprite(), 60, 60, EntetyEnum.getEnumById(3).getSpeed(), 1000, EntetyEnum.getEnumById(3).getHp()));
+                    enteties.add(new Entity(40 * 64, 30 * 64 + (64*2*i),EntetyEnum.getEnumById(3).getSprite(), 60, 60, EntetyEnum.getEnumById(3).getSpeed(), (int) EntetyEnum.getEnumById(3).getAttackRange(), EntetyEnum.getEnumById(3).getHp()));
                     break;
                 case 4:
                     //
-                    enteties.add(new Entity(40 * 64, 30 * 64 + (64*2*i),EntetyEnum.getEnumById(4).getSprite(), 60, 60, EntetyEnum.getEnumById(4).getSpeed(), 1000, EntetyEnum.getEnumById(4).getHp()));
+                    enteties.add(new Entity(40 * 64, 30 * 64 + (64*2*i),EntetyEnum.getEnumById(4).getSprite(), 60, 60, EntetyEnum.getEnumById(4).getSpeed(), (int) EntetyEnum.getEnumById(4).getAttackRange(), EntetyEnum.getEnumById(4).getHp()));
                     break;
                 case 5:
                     //
-                    enteties.add(new Entity(40 * 64, 30 * 64 + (64*2*i),EntetyEnum.getEnumById(5).getSprite(), 60, 60, EntetyEnum.getEnumById(5).getSpeed(), 1000, EntetyEnum.getEnumById(5).getHp()));
+                    enteties.add(new Entity(40 * 64, 30 * 64 + (64*2*i),EntetyEnum.getEnumById(5).getSprite(), 60, 60, EntetyEnum.getEnumById(5).getSpeed(), (int) EntetyEnum.getEnumById(5).getAttackRange(), EntetyEnum.getEnumById(5).getHp()));
                     break;
                 default:
 
@@ -262,9 +262,6 @@ public class BoatFightScreen extends InputAdapter implements Screen {
 
 
     public void addColliders() {
-        int mini = 0;
-        int minj = 0;
-
         int[] map = new MegaTile().getLong();
         for (int i = 20; i < 60; i++) {
             for (int j = 20; j < 40; j++) {

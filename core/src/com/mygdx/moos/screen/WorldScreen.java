@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.moos.GeimClass;
 import com.mygdx.moos.tiles.MegaTile;
@@ -42,9 +43,17 @@ public class WorldScreen implements Screen {
 
     float stateTime;
 
+    ArrayList<Vector2> colliders;
+
+
+    Sound sound = Gdx.audio.newSound(Gdx.files.internal("assets/music/Main_theme.mp3"));
+
     public WorldScreen(GeimClass geimClass) {
         this.geimClass = geimClass;
-        boat = new Boat(16 * 64 * 30 - 590, 16 * 64 *30, new Sprite(new Texture("sprites/paat.png"), 256, 128));
+        boat = new Boat(16 * 64 * 30 - 590, 16 * 64 * 30, new Sprite(new Texture("sprites/paat.png"), 256, 128));
+        map = new TiledMap();
+        layers = map.getLayers();
+        generateMap(25);
     }
 
 
@@ -54,18 +63,20 @@ public class WorldScreen implements Screen {
         UIcamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.setToOrtho(false);
         UIcamera.setToOrtho(false);
-        map = new TiledMap();
         renderer = new OrthogonalTiledMapRenderer(map);
-        tile = new MegaTile(0, 0);
-        layers = map.getLayers();
         pause = false;
 
         border = new Texture("assets/border.png");
         inv = new Texture("assets/buttons/inventory.png");
         invShow = new Texture("assets/buttons/invShow.png");
         borderBatch = new SpriteBatch();
-        generateMap(25);
+
+        //fishiGoal = (int) Math.round(Math.random()*12+3);
         //layers.add(new MegaTile(0,0).generateBoatMapLayer());
+        addColliders();
+
+        long id = sound.play(1.0f);
+        sound.setLooping(id, true);
 
     }
 
@@ -126,6 +137,7 @@ public class WorldScreen implements Screen {
         }
         borderBatch.end();
 
+        //checkCollision();
 
     }
 
@@ -146,6 +158,39 @@ public class WorldScreen implements Screen {
 
             borderBatch.draw(fish, 1642 + (i % 3) * 88, 985 - j * 88, 58, 58);
         }
+    }
+
+    public void addColliders() {
+        int[] map = new MegaTile().getHouse();
+        for (int i = 0; i < 30; i++) {
+            for (int j = 0; j < 30; j++) {
+                if (map[30 * j + i] == 18) {
+                    colliders.add(new Vector2(i + 64 * 30 * 15, j + 64 * 30 * 15));
+                }
+            }
+        }
+    }
+
+    public void checkCollision() {
+
+        for (Vector2 collider : colliders) {
+            if (collides(boat.boatX, boat.boatY, 256, 128, collider.x, collider.y, 64, 64)) {
+                System.out.println("COLLISION");
+                boat.boatX = boat.lastX;
+                boat.boatY = boat.lastY;
+
+            }
+        }
+    }
+
+
+    private boolean collides(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2) {
+        return ((x1 < x2) && (x2 < x1 + w1)) && ((y1 < y2) && (y2 < y1 + h1)) ||
+                ((x1 < x2 + w2) && (x2 + w2 < x1 + w1)) && ((y1 < y2) && (y2 < y1 + h1)) ||
+                ((x1 < x2) && (x2 < x1 + w1)) && ((y1 < y2 + h2) && (y2 + h2 < y1 + h1)) ||
+                ((x1 < x2 + w2) && (x2 + w2 < x1 + w1)) && ((y1 < y2 + h2) && (y2 + h2 < y1 + h1));
+
+
     }
 
 
@@ -199,17 +244,17 @@ public class WorldScreen implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.S) && Gdx.input.isKeyPressed(Input.Keys.D)) {
             boat.sdPressed(delta);
         }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.E)){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
             // DO SHIT
             if ( 16 * 64 * 30 - 290 > boat.boatX && boat.boatX < 16 * 64 * 30 - 890 && 16 * 64 * 30 - 300 < boat.boatY && 16 * 64 * 30 + 300 > boat.boatY){
                 System.out.println("shop");
             }
             else if (boat.fishing()){
                 double radius = Math.sqrt(Math.pow(Gdx.input.getX() - boat.startX, 2) + Math.pow(Gdx.input.getY() - boat.startY, 2));
-                geimClass.setScreen(new BoatFightScreen(geimClass,radius));
+                sound.stop();
+                geimClass.setScreen(new BoatFightScreen(geimClass, radius));
             }
         }
-
 
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
@@ -227,11 +272,12 @@ public class WorldScreen implements Screen {
             invent = !invent;
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.M) && camera.zoom <10) {
             camera.zoom += 2;
+            System.out.println(camera.zoom);
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.N)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.N) && camera.zoom > 3 ){
             camera.zoom -= 2;
         }
     }

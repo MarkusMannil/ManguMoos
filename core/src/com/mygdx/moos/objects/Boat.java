@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public class Boat {
     public TextureRegion[][] texture;
-    public float boatX;
-    public float boatY;
+    public float boatX, lastX;
+    public float boatY, lastY;
 
     public float originX, originY;
     public Sprite sprite;
@@ -34,6 +34,8 @@ public class Boat {
         this.originY = 64;
         this.startX = boatX;
         this.startY = boatY;
+        this.lastX = boatX;
+        this.lastY = boatY;
 
 
 
@@ -48,24 +50,28 @@ public class Boat {
     }
 
     public void aPressed(float delta) {
+        lastX = boatX;
         boatX -= delta * speed * 2;
         direction.x = -1;
         direction.y = 0;
     }
 
     public void wPressed(float delta) {
+        lastY = boatY;
         boatY += delta * speed * 2 ;
         direction.y = 1;
         direction.x = 0;
     }
 
     public void sPressed(float delta) {
+        lastY = boatY;
         boatY -= delta * speed * 2;
         direction.y = -1;
         direction.x = 0;
     }
 
     public void dPressed(float delta) {
+        lastX = boatX;
         boatX += delta * speed * 2;
         direction.x = 1;
         direction.y = 0;
