@@ -1,7 +1,6 @@
 package com.mygdx.moos.objects;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -84,19 +83,20 @@ public class Entity {
     // move this entity toward along the vector v(x,y) at specified speed
 
     public boolean move(float x, float y, float delta) {
-        this.alfa = Math.atan(y / x);
-        this.SINA = Math.sin(alfa);
-        this.COSA = Math.cos(alfa);
-        viewDirectionRight = x >= 0 ? 1 : -1;
-        boolean isTrue = false;
-        this.distanceX = (float) (speed * COSA * viewDirectionRight);
-        this.distanceY = (float) (speed * SINA * viewDirectionRight);
-        entityX += distanceX * delta;
-        entityY += distanceY * delta;
-        centerX += distanceX * delta;
-        centerY += distanceY * delta;
-        distance += Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-        return false; //returnType neccesary for projectiles to dissapear at specified distance (attackrange)
+            this.alfa = Math.atan(y / x);
+            this.SINA = Math.sin(alfa);
+            this.COSA = Math.cos(alfa);
+            viewDirectionRight = x >= 0 ? 1 : -1;
+            boolean isTrue = false;
+            this.distanceX = (float) (speed * COSA * viewDirectionRight);
+            this.distanceY = (float) (speed * SINA * viewDirectionRight);
+            entityX += distanceX * delta;
+            entityY += distanceY * delta;
+            centerX += distanceX * delta;
+            centerY += distanceY * delta;
+            distance += Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+            return false; //returnType neccesary for projectiles to dissapear at specified distance (attackrange)
+
     }
 
     //move at previous angle at specified speed
@@ -110,7 +110,8 @@ public class Entity {
 
     public boolean inRangeXY(float x, float y) {
         // returns true if distance between the center position this entity and the given x and y coordinates is lower than attackrange
-        double distance = Math.sqrt(Math.pow(x - this.centerX, 2) + Math.pow(y - this.centerY, 2));
+        this.distance = (float)(Math.sqrt(Math.pow(x - this.centerX, 2) + Math.pow(y - this.centerY, 2)));
+        System.out.println(distance + " "+ attackrange);
         return distance > attackrange;
     }
 
@@ -122,7 +123,7 @@ public class Entity {
 
     // shoot at XY coordinates on map not camera
     public Projectile[] shootAtXY(float x, float y) {
-        
+
         if (this.projectileType == null) {
             this.projectileType = new Entity(new Sprite(TextureRegion.split(new Texture("sprites/bulletsBig.png"), 36, 20)[0][2]), 5, 8, 300, 30);
         }

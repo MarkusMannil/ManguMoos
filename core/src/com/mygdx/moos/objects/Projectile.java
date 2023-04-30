@@ -34,6 +34,8 @@ public class Projectile  extends Entity{
         this.distanceY = (float)(speed  * SINA * viewDirectionRight);
     }
 
+
+
     @Override
     public boolean move(float delta){
         super.move(delta);

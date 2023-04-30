@@ -27,7 +27,7 @@ public class Enemy {
 
     // shoot
     public int attackRange;
-    public int cooldown = 30;
+    public int cooldown = 20;
 
     public Enemy(float entityX, float entityY, Sprite sprite, float height, float width, float speed, int attackRange, int cooldown) {
         this.entityX = entityX;
