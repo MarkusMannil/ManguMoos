@@ -5,10 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.mygdx.moos.screen.GameScreen;
-import com.mygdx.moos.screen.PauseScreen;
-import com.mygdx.moos.screen.TitleScreen;
-import com.mygdx.moos.screen.WorldScreen;
+import com.mygdx.moos.screen.*;
 
 public class GeimClass extends Game {
 	public SpriteBatch batch;
@@ -17,6 +14,8 @@ public class GeimClass extends Game {
 	public TitleScreen titlescreen;
 	public PauseScreen pauseScreen;
 	public WorldScreen worldScreen;
+	public PrologScreen prologScreen;
+	public BoatFightScreen boatFightScreen;
 
 	@Override
 	public void create() {
@@ -24,9 +23,14 @@ public class GeimClass extends Game {
 		titlescreen = new TitleScreen(this);
 		worldScreen = new WorldScreen(this);
 		gameScreen = new GameScreen(this);
-
+		shapeRenderer = new ShapeRenderer();
+		prologScreen = new PrologScreen(this);
+		//boatFightScreen = new BoatFightScreen(this);
 
 		setScreen(titlescreen);
 		//setScreen(worldScreen);
+		//setScreen(prologScreen);
+		//setScreen(boatFightScreen);
+
 	}
 }

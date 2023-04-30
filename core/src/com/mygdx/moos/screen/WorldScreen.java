@@ -9,15 +9,12 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.moos.GeimClass;
-import com.mygdx.moos.MegaTile;
+import com.mygdx.moos.tiles.MegaTile;
 import com.mygdx.moos.objects.Boat;
 import com.mygdx.moos.objects.Obsticle;
-import com.mygdx.moos.objects.Player;
-import com.mygdx.moos.objects.PlayerProjectile;
 
 import java.util.ArrayList;
 
@@ -39,7 +36,7 @@ public class WorldScreen implements Screen {
 
     public WorldScreen(GeimClass geimClass) {
         this.geimClass = geimClass;
-        boat = new Boat(0, 0, new Sprite(new Texture("sprites/paat.png")));
+        boat = new Boat(16 * 64 * 30 - 590, 16 * 64 *30, new Sprite(new Texture("sprites/paat.png"), 256, 128));
     }
 
 
@@ -54,10 +51,14 @@ public class WorldScreen implements Screen {
         generateMap(9);
 
     }
-    public void  generateMap(int n){
+
+    public void generateMap(int n) {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                layers.add(new MegaTile(i, j).generateMapLayer());
+                if (i == 15 && j == 15) {
+                    layers.add(new MegaTile(i, j).generateHouseMapLayer());
+                } else
+                    layers.add(new MegaTile(i, j).generateMapLayer());
             }
         }
     }
@@ -74,16 +75,37 @@ public class WorldScreen implements Screen {
         renderer.setView(camera);
         camera.update();
         renderer.render();
+
         batch.begin();
-        camera.position.set(boat.boatX, boat.boatY, 0);
+        camera.position.set(boat.boatX + boat.originX, boat.boatY + boat.originY, 0);
         boat.draw(batch);
 
         generalUpdate(delta,stateTime);
 
         batch.end();
 
-        boat.rotateBoat();
+
     }
+
+    public void display_inv() {
+        int inventory_size = boat.inventory.size();
+
+        int j = 0;
+
+        for (int i = 0; i < inventory_size; i++) {
+            if (i % 3 == 0) {
+                j += 1;
+            }
+
+            int fishType = boat.inventory.get(i);
+
+
+            Sprite fish = new Sprite(TextureRegion.split(new Texture("assets/sprites/fishSpriteTest.png"), 60, 60)[0][fishType - 1]);
+
+            borderBatch.draw(fish, 1642 + (i % 3) * 88, 985 - j * 88, 58, 58);
+        }
+    }
+
 
     @Override
     public void resize(int width, int height) {
@@ -109,7 +131,8 @@ public class WorldScreen implements Screen {
     public void dispose() {
 
     }
-    public void generalUpdate(float delta,float stateTime) {
+
+    public void generalUpdate(float delta, float stateTime) {
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             boat.aPressed(delta);
         }
@@ -124,9 +147,9 @@ public class WorldScreen implements Screen {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)){
             camera.zoom += 2;
-            System.out.println("zoom +?");
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.N)){
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.N)) {
             camera.zoom -= 2;
         }
 

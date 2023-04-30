@@ -1,14 +1,19 @@
 package com.mygdx.moos.objects;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.mygdx.moos.objects.enemy.Enemy;
 
 public class PlayerProjectile {
     public float projectileX;
     public float projectileY;
     public Sprite sprite;
-    public float speed = 200.0f;
+    public float speed = 500.0f;
     public Player player;
+
+    public Enemy enemy;
 
     public float destinationX;
 
@@ -28,16 +33,47 @@ public class PlayerProjectile {
     public PlayerProjectile(Player player, float destinationX, float destinationY) {
         this.projectileX = player.playerX;
         this.projectileY = player.playerY;
-        this.sprite = new Sprite(new Texture("bullet.png"));
-        this.player = player;
         this.destinationX = player.playerX + destinationX;
         this.destinationY = player.playerY + destinationY;
+        this.sprite = new Sprite(TextureRegion.split(new Texture("sprites/bulletsBig.png"),32,20)[0][0]);
+        this.player = player;
         alfa = Math.atan((destinationY / projectileY) / (destinationX / projectileY));
         direction = this.destinationX - projectileX > 0 ? 1 : -1 ;
         SINA = Math.sin(alfa);
         COSA = Math.cos(alfa);
         distance = 0;
+    }
+    public PlayerProjectile(Enemy player, float destinationX, float destinationY) {
+        this.projectileX = player.entityX;
+        this.projectileY = player.entityY;
+        this.destinationX = player.entityX + destinationX;
+        this.destinationY = player.entityY + destinationY;
+        this.sprite = new Sprite(TextureRegion.split(new Texture("sprites/bulletsBig.png"),32,20)[0][0]);
+        this.enemy = player;
+        alfa = Math.atan((destinationY / projectileY) / (destinationX / projectileY));
+        direction = this.destinationX - projectileX > 0 ? 1 : -1 ;
+        SINA = Math.sin(alfa);
+        COSA = Math.cos(alfa);
+        distance = 0;
+    }
 
+
+    public PlayerProjectile(float projectileX, float projectileY, float destinationX, float destinationY) {
+
+        this.projectileX = projectileX;
+        this.projectileY = projectileY;
+        this.destinationX = projectileX + destinationX;
+        this.destinationY = projectileY + destinationY;
+        this.sprite = new Sprite(TextureRegion.split(new Texture("sprites/bulletsBig.png"),32,20)[0][1]);
+
+        alfa = Math.atan((destinationY / projectileY) / (destinationX / projectileY));
+        direction = this.destinationX - projectileX > 0 ? 1 : -1 ;
+        SINA = Math.sin(alfa);
+        COSA = Math.cos(alfa);
+        System.out.println(direction);
+        System.out.println(alfa + " " + SINA + " " +COSA);
+
+        distance = 0;
     }
 
     public float moveX(float delta){
@@ -59,5 +95,14 @@ public class PlayerProjectile {
             isTrue = true;
         }
         return isTrue;
+    }
+    public void draw(Batch batch){
+
+        sprite.setPosition(projectileX,projectileY);
+        sprite.setOrigin(80,80);
+
+        sprite.setRotation((float) alfa);
+
+        sprite.draw(batch);
     }
 }

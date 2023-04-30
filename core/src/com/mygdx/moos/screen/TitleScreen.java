@@ -1,4 +1,5 @@
 package com.mygdx.moos.screen;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -22,7 +23,7 @@ public class TitleScreen implements Screen {
     private static final int BUTTON_WIDTH = 80*8;
     private static final int BUTTON_HEIGHT = 34*8;
 
-    public TitleScreen(GeimClass geimClass)  {
+    public TitleScreen(GeimClass geimClass) {
         this.geimClass = geimClass;
     }
 
@@ -44,8 +45,8 @@ public class TitleScreen implements Screen {
         Gdx.gl.glClearColor(.1f, .1f, .15f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        int WINDOW_WIDTH = (1920/2);
-        int WINDOW_HEIGHT = (1080/2);
+        int WINDOW_WIDTH = (1920 / 2);
+        int WINDOW_HEIGHT = (1080 / 2);
 
         batch.begin();
 
@@ -55,18 +56,18 @@ public class TitleScreen implements Screen {
             if(Gdx.input.isTouched()){
                 geimClass.setScreen(geimClass.gameScreen);
             }
-        }else {
-            batch.draw(playButtonInactive,WINDOW_WIDTH- BUTTON_WIDTH /2,WINDOW_HEIGHT- BUTTON_HEIGHT /2+120, BUTTON_WIDTH, BUTTON_HEIGHT);
+        } else {
+            batch.draw(playButtonInactive, WINDOW_WIDTH - BUTTON_WIDTH / 2, WINDOW_HEIGHT - BUTTON_HEIGHT / 2 + 120, BUTTON_WIDTH, BUTTON_HEIGHT);
         }
 
-        if(Gdx.input.getX()> WINDOW_WIDTH- BUTTON_WIDTH /2-30 && Gdx.input.getX()< WINDOW_WIDTH + BUTTON_WIDTH /2-30 &&
-                Gdx.input.getY()> WINDOW_HEIGHT+10 && Gdx.input.getY()< WINDOW_HEIGHT +200) {
-            batch.draw(exitButtonActive, WINDOW_WIDTH- BUTTON_WIDTH /2, WINDOW_HEIGHT - 250, BUTTON_WIDTH, BUTTON_HEIGHT);
-            if(Gdx.input.isTouched()){
+        if (Gdx.input.getX() > WINDOW_WIDTH - BUTTON_WIDTH / 2 - 30 && Gdx.input.getX() < WINDOW_WIDTH + BUTTON_WIDTH / 2 - 30 &&
+                Gdx.input.getY() > WINDOW_HEIGHT + 10 && Gdx.input.getY() < WINDOW_HEIGHT + 200) {
+            batch.draw(exitButtonActive, WINDOW_WIDTH - BUTTON_WIDTH / 2, WINDOW_HEIGHT - 250, BUTTON_WIDTH, BUTTON_HEIGHT);
+            if (Gdx.input.isTouched()) {
                 Gdx.app.exit();
             }
-        }else {
-            batch.draw(exitButtonInactive,WINDOW_WIDTH- BUTTON_WIDTH /2,WINDOW_HEIGHT-250, BUTTON_WIDTH, BUTTON_HEIGHT);
+        } else {
+            batch.draw(exitButtonInactive, WINDOW_WIDTH - BUTTON_WIDTH / 2, WINDOW_HEIGHT - 250, BUTTON_WIDTH, BUTTON_HEIGHT);
         }
 
 
