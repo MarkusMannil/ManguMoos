@@ -121,7 +121,12 @@ public class Boat {
     public boolean fishing(){
         double chance = Math.random();
         if (chance > 0.8) {
-            inventory.add((int)(Math.round(Math.random()*6)));
+
+            for (int i = 0; i < (int)(Math.round(Math.random()*5)) ; i++) {
+                inventory.add((int)(Math.round(Math.random()*4)) + 1);
+            }
+
+
             return true;
         }
         return false;

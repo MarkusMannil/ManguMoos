@@ -3,7 +3,6 @@ package com.mygdx.moos.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -16,7 +15,6 @@ public class TutorialScreen implements Screen {
     GeimClass geimClass;
     Batch batch;
 
-    Sound sound = Gdx.audio.newSound(Gdx.files.internal("assets/music/TheThinker.mp3"));
 
     public TutorialScreen(GeimClass geimClass) {
         this.geimClass = geimClass;
@@ -24,12 +22,9 @@ public class TutorialScreen implements Screen {
 
     @Override
     public void show() {
-        tutorial = new Texture("assets/images/tutorial.png");
+        tutorial = new Texture("images/tutorial.png");
         batch = new SpriteBatch();
 
-        sound.stop();
-        long id = sound.play(1.0f);
-        sound.setLooping(id, true);
     }
 
     @Override
@@ -38,7 +33,6 @@ public class TutorialScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_ALPHA_BITS);
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
-            sound.stop();
             geimClass.setScreen(geimClass.worldScreen);
             try {
                 Thread.sleep(100);

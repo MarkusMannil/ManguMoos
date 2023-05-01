@@ -37,11 +37,11 @@ public class PauseScreen implements Screen {
 
     @Override
     public void show() {
-        resumeActive = new Texture("assets/buttons/continue.png");
-        resumeInactive = new Texture("assets/buttons/continueHover.png");
+        resumeActive = new Texture("buttons/continue.png");
+        resumeInactive = new Texture("buttons/continueHover.png");
 
-        menuActive = new Texture("assets/buttons/mainMenu.png");
-        menuInactive = new Texture("assets/buttons/mainMenuHover.png");
+        menuActive = new Texture("buttons/mainMenu.png");
+        menuInactive = new Texture("buttons/mainMenuHover.png");
 
         batch = new SpriteBatch();
 

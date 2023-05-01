@@ -3,7 +3,6 @@ package com.mygdx.moos.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -51,7 +50,6 @@ public class WorldScreen implements Screen {
     ArrayList<Vector2> colliders;
 
 
-    Sound sound = Gdx.audio.newSound(Gdx.files.internal("assets/music/Main_theme.mp3"));
 
     public WorldScreen(GeimClass geimClass) {
         this.geimClass = geimClass;
@@ -76,19 +74,17 @@ public class WorldScreen implements Screen {
         renderer = new OrthogonalTiledMapRenderer(map);
         pause = false;
 
-        border = new Texture("assets/border.png");
-        inv = new Texture("assets/buttons/inventory.png");
-        invShow = new Texture("assets/buttons/invShow.png");
-        pressE1 = new Texture("assets/pressE1.png");
-        pressE3 = new Texture("assets/pressE3.png");
+        border = new Texture("border.png");
+        inv = new Texture("buttons/inventory.png");
+        invShow = new Texture("buttons/invShow.png");
+        pressE1 = new Texture("pressE1.png");
+        pressE3 = new Texture("pressE3.png");
         borderBatch = new SpriteBatch();
 
         //fishiGoal = (int) Math.round(Math.random()*12+3);
         //layers.add(new MegaTile(0,0).generateBoatMapLayer());
         addColliders();
 
-        long id = sound.play(1.0f);
-        sound.setLooping(id, true);
 
     }
 
@@ -172,7 +168,7 @@ public class WorldScreen implements Screen {
             int fishType = boat.inventory.get(i);
 
 
-            Sprite fish = new Sprite(TextureRegion.split(new Texture("assets/sprites/fishSpriteTest.png"), 60, 60)[0][fishType - 1]);
+            Sprite fish = new Sprite(TextureRegion.split(new Texture("sprites/fishSpriteTest.png"), 60, 60)[0][fishType - 1]);
 
             borderBatch.draw(fish, 1642 + (i % 3) * 88, 985 - j * 88, 58, 58);
         }
@@ -219,7 +215,6 @@ public class WorldScreen implements Screen {
 
     @Override
     public void pause() {
-        sound.stop();
         geimClass.setScreen(new PauseScreen(geimClass, geimClass.worldScreen));
     }
 
@@ -266,7 +261,6 @@ public class WorldScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
             // DO SHIT
             if (16 * 64 * 30 - 590 - 1500 < boat.boatX && 16 * 64 * 30 - 590 + 500 > boat.boatX && 16 * 64 * 30 - 1500 < boat.boatY && 16 * 64 * 30 + 500 > boat.boatY) {
-                sound.stop();
                 boolean yes = false;
                 if (fishiGoal <= boat.inventory.size()) {
                     for (int i = fishiGoal - 1; i >= 0; i--) {
@@ -278,14 +272,12 @@ public class WorldScreen implements Screen {
                 }
 
 
-                sound.stop();
                 geimClass.setScreen(new MerchantScreen(geimClass, fishiGoal, boat,yes));
 
 
 
             } else if (boat.fishing()) {
                 double radius = Math.sqrt(Math.pow(Gdx.input.getX() - boat.startX, 2) + Math.pow(Gdx.input.getY() - boat.startY, 2));
-                sound.stop();
                 geimClass.setScreen(new BoatFightScreen(geimClass, radius));
             }
         }

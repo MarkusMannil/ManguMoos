@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -61,7 +61,7 @@ public class BoatFightScreen extends InputAdapter implements Screen {
 
     ArrayList<Vector2> colliders = new ArrayList<>();
 
-    Sound sound = Gdx.audio.newSound(Gdx.files.internal("assets/music/fightSong.mp3"));
+
 
     // toDo add randomised fish creation to screen constructor
     public BoatFightScreen(GeimClass geimClass, double radius) {
@@ -89,7 +89,7 @@ public class BoatFightScreen extends InputAdapter implements Screen {
 
         player = new Player(48 * 64, 30 * 64, new Sprite(new Texture("sprites/paadiAnts.png")), 80, 100);
 
-        border = new Texture("assets/border.png");
+        border = new Texture("border.png");
 
         uiBatch = new SpriteBatch();
 
@@ -128,9 +128,7 @@ public class BoatFightScreen extends InputAdapter implements Screen {
 
         }
         System.out.println(enteties.size());
-        sound.stop();
-        long id = sound.play(1.0f);
-        sound.setLooping(id, true);
+
     }
 
     @Override
@@ -168,7 +166,7 @@ public class BoatFightScreen extends InputAdapter implements Screen {
 
     public void upDateEntity(Batch batch, float delta) {
         if(enteties.size() == 0){
-            sound.stop();
+
             geimClass.setScreen(geimClass.worldScreen);
         }
 
@@ -200,7 +198,7 @@ public class BoatFightScreen extends InputAdapter implements Screen {
     public void generalUpdate(float delta, float stateTime) {
         if(player.hp < 0){
             System.out.println("DEAD YOU");
-            sound.stop();
+
             geimClass.setScreen(geimClass.titlescreen);
         }
 
@@ -244,7 +242,7 @@ public class BoatFightScreen extends InputAdapter implements Screen {
 
             for (Entity p1 : enteties) {
                 if (p1.isColliding(playerProjectiles.get(i).projectileX, playerProjectiles.get(i).projectileY)) {
-                    p1.hp -= 10;
+                    p1.hp -= 100;
                     System.out.println("HIT");
                     arrived = true;
                     break;

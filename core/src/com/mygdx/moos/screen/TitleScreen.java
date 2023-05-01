@@ -34,8 +34,8 @@ public class TitleScreen implements Screen {
     public void show() {
 
         //placeholder buttons for now
-        playButtonActive = new Texture("assets/buttons/ilusStartNuppHover.png");
-        exitButtonActive = new Texture("assets/buttons/ilusEndNuppHover.png");
+        playButtonActive = new Texture("buttons/ilusStartNuppHover.png");
+        exitButtonActive = new Texture("buttons/ilusEndNuppHover.png");
 
         playButtonInactive = new Texture("buttons/ilusStartNupp.png");
         exitButtonInactive = new Texture("buttons/ilusEndNupp.png");

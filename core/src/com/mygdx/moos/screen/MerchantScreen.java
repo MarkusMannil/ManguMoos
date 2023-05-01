@@ -3,7 +3,6 @@ package com.mygdx.moos.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -24,7 +23,6 @@ public class MerchantScreen implements Screen {
     Boolean fishBool = false;
 
 
-    Sound sound = Gdx.audio.newSound(Gdx.files.internal("assets/music/BeepBox-Song-AudioTrimmer.com.mp3"));
 
 
     public MerchantScreen(GeimClass geimClass, int fishgoal, Boat boat,boolean thkayou) {
@@ -42,9 +40,6 @@ public class MerchantScreen implements Screen {
         font = new BitmapFont();
 
 
-        sound.stop();
-        long id = sound.play(1.0f);
-        sound.setLooping(id, true);
     }
 
     @Override
@@ -94,7 +89,6 @@ public class MerchantScreen implements Screen {
 
     @Override
     public void resume() {
-        sound.stop();
         geimClass.setScreen(geimClass.worldScreen);
         try {
             Thread.sleep(100);

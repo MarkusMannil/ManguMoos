@@ -67,7 +67,7 @@ public class GameScreen extends InputAdapter implements Screen {
         generateMap(10);
         enteties.add(bad);
         pause = false;
-        border = new Texture("assets/border.png");
+        border = new Texture("border.png");
         borderBatch = new SpriteBatch();
     }
     public void  generateMap(int n){
