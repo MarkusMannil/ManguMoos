@@ -1,4 +1,4 @@
-package com.mygdx.moos.objects.enemy;
+package com.mygdx.moos.objects;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mygdx.moos.objects.Player;

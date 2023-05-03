@@ -1,4 +1,4 @@
-package com.mygdx.moos.tiles;
+package com.mygdx.moos.Enums;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

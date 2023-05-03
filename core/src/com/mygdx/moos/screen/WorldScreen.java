@@ -48,6 +48,7 @@ public class WorldScreen implements Screen {
     float stateTime;
 
     ArrayList<Vector2> colliders;
+    double radius;
 
 
 
@@ -143,9 +144,9 @@ public class WorldScreen implements Screen {
             borderBatch.draw(pressE1, 50,50,500,200);
         }
 
-        borderBatch.draw(border, 0, 0, 1920, 1080);
+        borderBatch.draw(border, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         if (!invent) borderBatch.draw(inv, 1820, 980, 64, 64);
-        else if (invent) {
+        else {
             borderBatch.draw(invShow, 1630, 534, 268, 524);
             display_inv();
         }
@@ -272,13 +273,13 @@ public class WorldScreen implements Screen {
                 }
 
 
-                geimClass.setScreen(new MerchantScreen(geimClass, fishiGoal, boat,yes));
+                geimClass.setScreen(geimClass.merchantScreen);
 
 
 
             } else if (boat.fishing()) {
-                double radius = Math.sqrt(Math.pow(Gdx.input.getX() - boat.startX, 2) + Math.pow(Gdx.input.getY() - boat.startY, 2));
-                geimClass.setScreen(new BoatFightScreen(geimClass, radius));
+                radius = Math.sqrt(Math.pow(Gdx.input.getX() - boat.startX, 2) + Math.pow(Gdx.input.getY() - boat.startY, 2));
+                geimClass.setScreen(geimClass.boatFightScreen);
             }
         }
 

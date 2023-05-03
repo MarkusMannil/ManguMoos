@@ -18,15 +18,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.moos.GeimClass;
 import com.mygdx.moos.objects.*;
-import com.mygdx.moos.objects.enemy.Enemy;
-import com.mygdx.moos.objects.enemy.EntetyEnum;
+import com.mygdx.moos.Enums.EntetyEnum;
 import com.mygdx.moos.tiles.MegaTile;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Vector;
 
 public class BoatFightScreen extends InputAdapter implements Screen {
 
@@ -36,9 +32,7 @@ public class BoatFightScreen extends InputAdapter implements Screen {
     Batch batch;
     Batch uiBatch;
     BitmapFont font;
-    ArrayList<Obsticle> obsticles = new ArrayList<Obsticle>();
-
-    ArrayList<Entity> enteties = new ArrayList<Entity>();
+    ArrayList<Entity> enteties;
 
     ArrayList<PlayerProjectile> playerProjectiles = new ArrayList<>();
 
@@ -62,21 +56,25 @@ public class BoatFightScreen extends InputAdapter implements Screen {
     ArrayList<Vector2> colliders = new ArrayList<>();
 
 
-
-    // toDo add randomised fish creation to screen constructor
-    public BoatFightScreen(GeimClass geimClass, double radius) {
+    public BoatFightScreen(GeimClass geimClass) {
         this.geimClass = geimClass;
-        this.radius = radius;
+        addColliders();
     }
 
     @Override
     public void show() {
-
+        // projectiles and enemies
+        playerProjectiles = new ArrayList<>();
+        enemyProjectiles = new ArrayList<>();
+        player = new Player(48 * 64, 30 * 64, new Sprite(new Texture("sprites/paadiAnts.png")), 80, 100);
+        enteties = new ArrayList<>();
+        radius = geimClass.worldScreen.radius;
+        addEnemies();
+        //
         font = new BitmapFont();
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false);
-
         uiCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         uiCamera.setToOrtho(false);
 
@@ -87,46 +85,12 @@ public class BoatFightScreen extends InputAdapter implements Screen {
 
         layers.add(new MegaTile(0, 0).generateBoatMapLayer());
 
-        player = new Player(48 * 64, 30 * 64, new Sprite(new Texture("sprites/paadiAnts.png")), 80, 100);
+
 
         border = new Texture("border.png");
 
         uiBatch = new SpriteBatch();
 
-        addColliders();
-        System.out.println(colliders);
-        double computed = Math.log10(radius + 1);
-        System.out.println(computed);
-        int howManyEnemies = (int) (computed * Math.random() + 1);
-        for (int i = 0; i < howManyEnemies; i++) {
-            int typeOfEnemy = (int) ((computed) * Math.random() + 1);
-            switch (typeOfEnemy) {
-                case 1:
-                    //
-                    enteties.add(new Entity(40 * 64, 30 * 64 + (64*2*i),EntetyEnum.getEnumById(1).getSprite(), 60, 60, EntetyEnum.getEnumById(1).getSpeed(), (int) EntetyEnum.getEnumById(1).getAttackRange(), EntetyEnum.getEnumById(1).getHp()));
-                    break;
-                case 2:
-                    //
-                    enteties.add(new Entity(40 * 64, 30 * 64 + (64*2*i),EntetyEnum.getEnumById(2).getSprite(), 60, 60, EntetyEnum.getEnumById(2).getSpeed(), (int) EntetyEnum.getEnumById(2).getAttackRange(), EntetyEnum.getEnumById(2).getHp()));
-                    break;
-                case 3:
-                    //
-                    enteties.add(new Entity(40 * 64, 30 * 64 + (64*2*i),EntetyEnum.getEnumById(3).getSprite(), 60, 60, EntetyEnum.getEnumById(3).getSpeed(), (int) EntetyEnum.getEnumById(3).getAttackRange(), EntetyEnum.getEnumById(3).getHp()));
-                    break;
-                case 4:
-                    //
-                    enteties.add(new Entity(40 * 64, 30 * 64 + (64*2*i),EntetyEnum.getEnumById(4).getSprite(), 60, 60, EntetyEnum.getEnumById(4).getSpeed(), (int) EntetyEnum.getEnumById(4).getAttackRange(), EntetyEnum.getEnumById(4).getHp()));
-                    break;
-                case 5:
-                    //
-                    enteties.add(new Entity(40 * 64, 30 * 64 + (64*2*i),EntetyEnum.getEnumById(5).getSprite(), 60, 60, EntetyEnum.getEnumById(5).getSpeed(), (int) EntetyEnum.getEnumById(5).getAttackRange(), EntetyEnum.getEnumById(5).getHp()));
-                    break;
-                default:
-
-            }
-            //enteties.add(new Entity(48 * 64, 30 * 64, new Sprite(new Texture( "bad_0.png")), 60, 60, 300f, 1000, 100));
-
-        }
         System.out.println(enteties.size());
 
     }
@@ -332,5 +296,41 @@ public class BoatFightScreen extends InputAdapter implements Screen {
     @Override
     public void dispose() {
 
+    }
+    public void addEnemies(){
+        double computed = Math.log10(radius + 1);
+        System.out.println(computed);
+        int howManyEnemies = (int) (computed * Math.random() + 1);
+
+        for (int i = 0; i < howManyEnemies; i++) {
+            int typeOfEnemy = (int) ((computed) * Math.random() + 1);
+            geimClass.worldScreen.boat.addFish(typeOfEnemy);
+            switch (typeOfEnemy) {
+                case 1:
+                    //
+                    enteties.add(new Entity(40 * 64, 30 * 64 + (64*2*i),EntetyEnum.getEnumById(1).getSprite(), 60, 60, EntetyEnum.getEnumById(1).getSpeed(), (int) EntetyEnum.getEnumById(1).getAttackRange(), EntetyEnum.getEnumById(1).getHp()));
+                    break;
+                case 2:
+                    //
+                    enteties.add(new Entity(40 * 64, 30 * 64 + (64*2*i),EntetyEnum.getEnumById(2).getSprite(), 60, 60, EntetyEnum.getEnumById(2).getSpeed(), (int) EntetyEnum.getEnumById(2).getAttackRange(), EntetyEnum.getEnumById(2).getHp()));
+                    break;
+                case 3:
+                    //
+                    enteties.add(new Entity(40 * 64, 30 * 64 + (64*2*i),EntetyEnum.getEnumById(3).getSprite(), 60, 60, EntetyEnum.getEnumById(3).getSpeed(), (int) EntetyEnum.getEnumById(3).getAttackRange(), EntetyEnum.getEnumById(3).getHp()));
+                    break;
+                case 4:
+                    //
+                    enteties.add(new Entity(40 * 64, 30 * 64 + (64*2*i),EntetyEnum.getEnumById(4).getSprite(), 60, 60, EntetyEnum.getEnumById(4).getSpeed(), (int) EntetyEnum.getEnumById(4).getAttackRange(), EntetyEnum.getEnumById(4).getHp()));
+                    break;
+                case 5:
+                    //
+                    enteties.add(new Entity(40 * 64, 30 * 64 + (64*2*i),EntetyEnum.getEnumById(5).getSprite(), 60, 60, EntetyEnum.getEnumById(5).getSpeed(), (int) EntetyEnum.getEnumById(5).getAttackRange(), EntetyEnum.getEnumById(5).getHp()));
+                    break;
+                default:
+
+            }
+            //enteties.add(new Entity(48 * 64, 30 * 64, new Sprite(new Texture( "bad_0.png")), 60, 60, 300f, 1000, 100));
+
+        }
     }
 }
