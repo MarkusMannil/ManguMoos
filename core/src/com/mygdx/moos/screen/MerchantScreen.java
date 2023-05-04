@@ -89,7 +89,7 @@ public class MerchantScreen implements Screen {
     }
 
     void removeFish() {
-        for (int i = fishgoal - 1; i < 0; i--) {
+        for (int i = boat.inventory.size() - 1; i > 0; i--) {
             boat.inventory.remove(boat.inventory.get(i));
         }
     }
@@ -129,19 +129,15 @@ public class MerchantScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
             if (state == 0) {
                 state = 1;
-            }
-            else
-            if (state == 1) {
+            } else if (state == 1) {
                 if (fishgoal <= boat.inventory.size()) {
                     state = 2;
                     removeFish();
-                    fishgoal = (int) Math.round(Math.random()*14);
+                    fishgoal = (int) Math.round(Math.random() * 14);
                 } else state = 3;
-            }
-            else
-            if (state == 3 || state == 2) state = 0;
+            } else if (state == 3 || state == 2) state = 0;
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.Q)){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
             resume();
         }
     }

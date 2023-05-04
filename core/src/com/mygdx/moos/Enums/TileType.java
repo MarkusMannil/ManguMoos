@@ -1,6 +1,8 @@
 package com.mygdx.moos.Enums;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import java.util.HashMap;
@@ -37,6 +39,7 @@ public enum TileType {
     private static final HashMap<Integer, TileType> tileTypeMap;
     private final boolean movable;
 
+
     TileType(int id, TextureRegion[][] textureRegions, int pos, int len, boolean animated, boolean movable) {
         this.id = id;
         this.textureRegions = textureRegions;
@@ -44,6 +47,7 @@ public enum TileType {
         this.len = len;
         this.animated = animated;
         this.movable = movable;
+
     }
 
     //

@@ -45,6 +45,60 @@ public class MegaTile {
         }
         return map;
     }
+    public TiledMapTileLayer generateMap0() {
+
+        int size = 25 * 30;
+
+        int[] house = getHouse();
+
+        TiledMapTileLayer layer = new TiledMapTileLayer(25 * 30, size, TILE_SIZE, TILE_SIZE);
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+
+                int index = (size * j + i);
+
+                double noise1 = OpenSimplex2S.noise2(SEED, (i) * FREQUENCY, (j) * FREQUENCY);
+                double noise2 = OpenSimplex2S.noise2(SEED, (i) * (FREQUENCY / 24), (j) * (FREQUENCY / 24));
+                double noise = (noise1 + noise2) / 2;
+                int tile_id;
+
+                if(i > 15 * 30 &&  i < 16 * 30 && j > 15 * 30 &&  j < 16 * 30 ){
+                    int ii ,jj ;
+                    ii = i - (15 * 30);
+                    jj = 29 - (j - (15 * 30));
+                    System.out.println(ii + " " + jj);
+                    tile_id = house[jj * 30 + ii];
+                } else {
+                    tile_id = noiseToTile(noise);
+                }
+
+
+                TileType tile = TileType.getTileTypeById(tile_id);
+
+                if (tile.isAnimated()) {
+                    Array<StaticTiledMapTile> tiles = new Array<StaticTiledMapTile>();
+                    for (int k = 0; k < 2; k++) {
+                        for (int l = 0; l < tile.getLen(); l++) {
+                            tiles.add(new StaticTiledMapTile(tile.getTextureRegions()[k + tile.getPos()][l]));
+                        }
+                    }
+                    AnimatedTiledMapTile animaTile = new AnimatedTiledMapTile(0.1f, tiles);
+                    TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
+                    cell.setTile(animaTile);
+                    layer.setCell(i,j,cell);
+                } else {
+
+                    TiledMapTile staticTile = new StaticTiledMapTile(tile.getTextureRegions()[0][tile.getLen()]);
+                    TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
+                    cell.setTile(staticTile);
+                    layer.setCell(i,j,cell);
+                }
+            }
+        }
+        return layer;
+    }
+
 
     private int noiseToTile(double noise) {
         int val;
@@ -171,7 +225,7 @@ public class MegaTile {
                 1,16,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,6,6,7,7,7,6,6,17,14,1,1,
                 1,16,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,7,7,7,7,7,17,17,14,1,1,
                 1,16,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,7,8,7,7,7,17,17,14,1,1,
-                1,16,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,7,8,7,7,7,17,17,17,10,1,
+                1,16,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,7,8,7,7,7,17,17,14,1,1,
                 1,16,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,9,1,
                 1,16,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,9,
                 1,16,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,14,
@@ -180,7 +234,7 @@ public class MegaTile {
                 1,11,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,12,1,
                 1,1,11,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,12,1,1,
                 1,1,1,11,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,14,1,1,1,
-                1,1,1,1,11,15,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,10,1,1,
+                1,1,1,1,11,15,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,14,1,1,1,
                 1,1,1,1,1,1,11,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,9,1,1,
                 1,1,1,1,1,1,1,16,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,14,1,1,
                 1,1,1,1,1,1,1,16,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,14,1,1,

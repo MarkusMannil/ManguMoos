@@ -5,10 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -22,7 +19,7 @@ import com.mygdx.moos.objects.Obsticle;
 import java.util.ArrayList;
 
 public class WorldScreen implements Screen {
-
+    TextureAtlas atlas;
     OrthographicCamera camera;
     OrthographicCamera UIcamera;
     Boat boat;
@@ -35,12 +32,12 @@ public class WorldScreen implements Screen {
     MegaTile tile;
     MapLayers layers;
     GeimClass geimClass;
-    Texture border;
-    Texture inv;
-    Texture invShow;
+    Sprite border;
+    Sprite inv;
+    Sprite invShow;
 
-    Texture pressE1;
-    Texture pressE3;
+    Sprite pressE1;
+    Sprite pressE3;
 
     boolean pause;
     boolean invent = false;
@@ -51,13 +48,14 @@ public class WorldScreen implements Screen {
     double radius;
 
 
-
     public WorldScreen(GeimClass geimClass) {
         this.geimClass = geimClass;
         boat = new Boat(16 * 64 * 30 - 590, 16 * 64 * 30, new Sprite(new Texture("sprites/paat.png"), 256, 128));
         map = new TiledMap();
         layers = map.getLayers();
-        generateMap(25);
+        layers.add(new MegaTile().generateMap0());
+        atlas = new TextureAtlas(Gdx.files.internal("atlas/all.atlas"));
+        //generateMap(25);
     }
 
     public WorldScreen(GeimClass geimClass, Boat boat) {
@@ -75,11 +73,16 @@ public class WorldScreen implements Screen {
         renderer = new OrthogonalTiledMapRenderer(map);
         pause = false;
 
-        border = new Texture("border.png");
-        inv = new Texture("buttons/inventory.png");
-        invShow = new Texture("buttons/invShow.png");
-        pressE1 = new Texture("pressE1.png");
-        pressE3 = new Texture("pressE3.png");
+        //border = new Texture("border.png");
+        border = atlas.createSprite("border");
+        //inv = new Texture("buttons/inventory.png");
+        inv = atlas.createSprite("inventory");
+        //invShow = new Texture("buttons/invShow.png");
+        invShow = atlas.createSprite("invShow");
+        //pressE1 = new Texture("pressE1.png");
+        pressE1 = atlas.createSprite("pressE1");
+        //pressE3 = new Texture("pressE3.png");
+        pressE3 = atlas.createSprite("pressE3");
         borderBatch = new SpriteBatch();
 
         //fishiGoal = (int) Math.round(Math.random()*12+3);
@@ -94,8 +97,8 @@ public class WorldScreen implements Screen {
             for (int j = 0; j < n; j++) {
                 if (i == 15 && j == 15) {
                     layers.add(new MegaTile(i, j).generateHouseMapLayer());
-                } else
-                    layers.add(new MegaTile(i, j).generateMapLayer());
+                }
+                layers.add(new MegaTile(i, j).generateMapLayer());
             }
         }
     }
@@ -129,8 +132,7 @@ public class WorldScreen implements Screen {
         } else {
             generalUpdate(delta, stateTime);
         }
-
-
+        batch.draw(atlas.createSprite("merchant"),16 * 64 * 30 - 570, 16 * 64 * 30 - 250);
 
         batch.end();
 
@@ -138,10 +140,10 @@ public class WorldScreen implements Screen {
         //y=262
         borderBatch.setProjectionMatrix(UIcamera.combined);
         borderBatch.begin();
-        if (16 * 64 * 30 - 590 - 1500 < boat.boatX && 16 * 64 * 30 - 590 + 500 > boat.boatX && 16 * 64 * 30 - 1500 < boat.boatY && 16 * 64 * 30 + 500 > boat.boatY){
-            borderBatch.draw(pressE3, 50,50,500,200);
-        }else{
-            borderBatch.draw(pressE1, 50,50,500,200);
+        if (16 * 64 * 30 - 590 - 300 < boat.boatX && 16 * 64 * 30 - 590 + 500 > boat.boatX && 16 * 64 * 30 - 500 < boat.boatY && 16 * 64 * 30 + 100 > boat.boatY) {
+            borderBatch.draw(pressE3, 50, 50, 500, 200);
+        } else {
+            borderBatch.draw(pressE1, 50, 50, 500, 200);
         }
 
         borderBatch.draw(border, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -150,6 +152,7 @@ public class WorldScreen implements Screen {
             borderBatch.draw(invShow, 1630, 534, 268, 524);
             display_inv();
         }
+
         borderBatch.end();
 
         //checkCollision();
@@ -235,6 +238,8 @@ public class WorldScreen implements Screen {
     }
 
     public void generalUpdate(float delta, float stateTime) {
+
+
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             boat.aPressed(delta);
         }
@@ -261,7 +266,7 @@ public class WorldScreen implements Screen {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
             // DO SHIT
-            if (16 * 64 * 30 - 590 - 1500 < boat.boatX && 16 * 64 * 30 - 590 + 500 > boat.boatX && 16 * 64 * 30 - 1500 < boat.boatY && 16 * 64 * 30 + 500 > boat.boatY) {
+            if (16 * 64 * 30 - 590 - 300 < boat.boatX && 16 * 64 * 30 - 590 + 500 > boat.boatX && 16 * 64 * 30 - 500 < boat.boatY && 16 * 64 * 30 + 100 > boat.boatY) {
                 boolean yes = false;
                 if (fishiGoal <= boat.inventory.size()) {
                     for (int i = fishiGoal - 1; i >= 0; i--) {
@@ -269,14 +274,9 @@ public class WorldScreen implements Screen {
                     }
                     yes = true;
 
-                    fishiGoal = (int)Math.round(Math.random()*12 + 3);
+                    fishiGoal = (int) Math.round(Math.random() * 12 + 3);
                 }
-
-
                 geimClass.setScreen(geimClass.merchantScreen);
-
-
-
             } else if (boat.fishing()) {
                 radius = Math.sqrt(Math.pow(Gdx.input.getX() - boat.startX, 2) + Math.pow(Gdx.input.getY() - boat.startY, 2));
                 geimClass.setScreen(geimClass.boatFightScreen);
@@ -299,12 +299,12 @@ public class WorldScreen implements Screen {
             invent = !invent;
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.M) && camera.zoom <10) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.M) && camera.zoom < 100) {
             camera.zoom += 2;
             System.out.println(camera.zoom);
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.N) && camera.zoom > 3 ){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.N) && camera.zoom > 1) {
             camera.zoom -= 2;
         }
     }

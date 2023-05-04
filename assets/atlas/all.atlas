@@ -1,0 +1,216 @@
+
+all.png
+size: 2048, 2048
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+beach
+  rotate: false
+  xy: 2, 446
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+beach2
+  rotate: false
+  xy: 1030, 446
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+beach3
+  rotate: false
+  xy: 1680, 894
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+boatTiles
+  rotate: false
+  xy: 1286, 250
+  size: 256, 64
+  orig: 256, 64
+  offset: 0, 0
+  index: -1
+border
+  rotate: false
+  xy: 644, 84
+  size: 640, 360
+  orig: 640, 360
+  offset: 0, 0
+  index: -1
+bulletsBig
+  rotate: false
+  xy: 1544, 674
+  size: 128, 20
+  orig: 128, 20
+  offset: 0, 0
+  index: -1
+continue
+  rotate: false
+  xy: 1368, 208
+  size: 80, 40
+  orig: 80, 40
+  offset: 0, 0
+  index: -1
+continueHover
+  rotate: false
+  xy: 1828, 918
+  size: 80, 40
+  orig: 80, 40
+  offset: 0, 0
+  index: -1
+fishSpriteTest
+  rotate: false
+  xy: 484, 22
+  size: 300, 60
+  orig: 300, 60
+  offset: 0, 0
+  index: -1
+ilusEndNupp
+  rotate: false
+  xy: 868, 42
+  size: 80, 40
+  orig: 80, 40
+  offset: 0, 0
+  index: -1
+ilusEndNuppHover
+  rotate: false
+  xy: 1544, 590
+  size: 80, 40
+  orig: 80, 40
+  offset: 0, 0
+  index: -1
+ilusNupp
+  rotate: false
+  xy: 1924, 1898
+  size: 80, 40
+  orig: 80, 40
+  offset: 0, 0
+  index: -1
+ilusNuppAll
+  rotate: false
+  xy: 1286, 166
+  size: 80, 40
+  orig: 80, 40
+  offset: 0, 0
+  index: -1
+ilusStartNupp
+  rotate: false
+  xy: 950, 42
+  size: 80, 40
+  orig: 80, 40
+  offset: 0, 0
+  index: -1
+ilusStartNuppHover
+  rotate: false
+  xy: 786, 42
+  size: 80, 40
+  orig: 80, 40
+  offset: 0, 0
+  index: -1
+invShow
+  rotate: false
+  xy: 1544, 696
+  size: 134, 262
+  orig: 134, 262
+  offset: 0, 0
+  index: -1
+inventory
+  rotate: false
+  xy: 1680, 860
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+mainMenu
+  rotate: false
+  xy: 1286, 208
+  size: 80, 40
+  orig: 80, 40
+  offset: 0, 0
+  index: -1
+mainMenuHover
+  rotate: false
+  xy: 1544, 632
+  size: 80, 40
+  orig: 80, 40
+  offset: 0, 0
+  index: -1
+merchant
+  rotate: false
+  xy: 1924, 1940
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+ocean
+  rotate: false
+  xy: 516, 446
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+paadiAnts
+  rotate: false
+  xy: 2, 2
+  size: 480, 80
+  orig: 480, 80
+  offset: 0, 0
+  index: -1
+paat
+  rotate: false
+  xy: 1286, 316
+  size: 256, 128
+  orig: 256, 128
+  offset: 0, 0
+  index: -1
+pressE1
+  rotate: false
+  xy: 1746, 918
+  size: 80, 40
+  orig: 80, 40
+  offset: 0, 0
+  index: -1
+pressE3
+  rotate: false
+  xy: 1924, 1856
+  size: 80, 40
+  orig: 80, 40
+  offset: 0, 0
+  index: -1
+pump
+  rotate: false
+  xy: 2006, 1874
+  size: 40, 20
+  orig: 40, 20
+  offset: 0, 0
+  index: -1
+shop
+  rotate: false
+  xy: 2, 84
+  size: 640, 360
+  orig: 640, 360
+  offset: 0, 0
+  index: -1
+tommy
+  rotate: false
+  xy: 2006, 1896
+  size: 40, 20
+  orig: 40, 20
+  offset: 0, 0
+  index: -1
+tutorial
+  rotate: false
+  xy: 2, 960
+  size: 1920, 1080
+  orig: 1920, 1080
+  offset: 0, 0
+  index: -1
+uzi
+  rotate: false
+  xy: 2006, 1918
+  size: 40, 20
+  orig: 40, 20
+  offset: 0, 0
+  index: -1
