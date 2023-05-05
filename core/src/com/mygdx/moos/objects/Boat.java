@@ -54,6 +54,7 @@ public class Boat {
         boatX -= delta * speed * 2;
         direction.x = -1;
         direction.y = 0;
+        sprite.setFlip(false, true);
     }
 
     public void wPressed(float delta) {
@@ -75,7 +76,7 @@ public class Boat {
         boatX += delta * speed * 2;
         direction.x = 1;
         direction.y = 0;
-
+        sprite.setFlip(false,false);
     }
     public void draw(Batch batch) {
         //System.out.println(direction.angleDeg());
@@ -87,10 +88,7 @@ public class Boat {
     }
 
     public void rotateBoat() {
-
         sprite.setRotation(direction.angleDeg());
-
-
     }
 
 

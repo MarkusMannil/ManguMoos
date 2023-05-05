@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-public class Projectile  extends Entity{
+public class Projectile  extends Entity {
 
     public int traveldistance;
 
@@ -47,8 +47,8 @@ public class Projectile  extends Entity{
             sprite.flip(true,false);
         }
 
-        sprite.setPosition(entityX,entityY);
-        sprite.setOrigin(height,width);
+        sprite.setPosition(entityX, entityY);
+        sprite.setOrigin(height/2,width/2);
 
         sprite.setRotation((float) alfa);
 

@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.moos.GeimClass;
+import com.mygdx.moos.objects.guns.BulletClass;
 import com.mygdx.moos.tiles.MegaTile;
 import com.mygdx.moos.objects.Player;
 import com.mygdx.moos.objects.PlayerProjectile;
@@ -28,7 +29,7 @@ public class GameScreen extends InputAdapter implements Screen {
     Batch batch;
     Batch borderBatch;
     MapLayers layers;
-    ArrayList<PlayerProjectile> playerProjectiles = new ArrayList<PlayerProjectile>();
+    ArrayList<BulletClass> playerProjectiles = new ArrayList<BulletClass>();
 
     ArrayList<Player> enteties = new ArrayList<Player>();
     boolean facing_left = true;
@@ -101,7 +102,7 @@ public class GameScreen extends InputAdapter implements Screen {
         }
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
 
-            playerProjectiles.add(player.leftClickPressed(delta));
+            //playerProjectiles.add(player.leftClickPressed(delta,stateTime));
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
@@ -119,17 +120,17 @@ public class GameScreen extends InputAdapter implements Screen {
             boolean arrived = playerProjectiles.get(i).move(delta);
 
             for (Player p1 : enteties) {
-                if (p1.isColliding(playerProjectiles.get(i).projectileX, playerProjectiles.get(i).projectileY)) {
+                //if (p1.isColliding(playerProjectiles.get(i).projectileX, playerProjectiles.get(i).projectileY)) {
                     System.out.println("HIT");
                     arrived = true;
                     break;
-                }
+               // }
             }
             if (arrived) {
                 playerProjectiles.remove(playerProjectiles.get(i));
                 i--;
-            } else
-                batch.draw(playerProjectiles.get(i).sprite, playerProjectiles.get(i).projectileX, playerProjectiles.get(i).projectileY);
+            } //else
+              //  batch.draw(playerProjectiles.get(i).sprite, playerProjectiles.get(i).projectileX, playerProjectiles.get(i).projectileY);
         }
     }
 

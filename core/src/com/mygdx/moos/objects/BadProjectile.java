@@ -19,7 +19,7 @@ public class BadProjectile{
     public BadProjectile(Player player, float destinationX, float destinationY) {
         this.projectileX = player.playerX + 19;
         this.projectileY = player.playerY + 59;
-        this.sprite = new Sprite(new Texture("bullet.png"));
+        this.sprite = new Sprite(new Texture("Bullet.png"));
         this.player = player;
         this.destinationX = player.playerX + destinationX;
         this.destinationY = player.playerY + destinationY;

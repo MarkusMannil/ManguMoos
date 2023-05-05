@@ -6,21 +6,15 @@ import java.util.Arrays;
 public class huinjaa {
 
     public static void main(String[] args) {
-
-        ArrayList<Integer> boat = new ArrayList<>();
-
-        for (int i = 0; i < 7; i++) {
-            boat.add(i);
+        int x = 0, y = 0;
+        for (int i = -10; i < 10; i++) {
+            for (int j = -10; j < 10; j++) {
+                System.out.println(Math.atan2(y - i, x - j) / (2* Math.PI));
+            }
         }
 
-        for (int i = boat.size() - 1; i > 0; i--) {
-            System.out.println(boat);
-            boat.remove(boat.get(i));
-        }
-        System.out.println(boat);
 
     }
-
 
 
 }

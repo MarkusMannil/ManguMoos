@@ -3,8 +3,12 @@ package com.mygdx.moos.objects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.mygdx.moos.objects.guns.BulletClass;
+import com.mygdx.moos.objects.guns.Rifle;
+import com.mygdx.moos.objects.guns.WeaponClass;
 
 import java.util.ArrayList;
 
@@ -26,8 +30,10 @@ public class Player {
 
     public ArrayList<Integer> inventory = new ArrayList<>();
 
+    public WeaponClass weapon;
 
-    public Player(float playerX, float playerY, Sprite sprite, int size,int hp) {
+
+    public Player(float playerX, float playerY, Sprite sprite, int size, int hp) {
         this.playerX = playerX;
         this.playerY = playerY;
         lastX = playerX;
@@ -38,7 +44,7 @@ public class Player {
         this.texture = TextureRegion.split(sprite.getTexture(), 80, 80);
         if (texture.length > 0)
             this.animatsion = new Animation<TextureRegion>(0.15f, texture[0]);
-
+        this.weapon = new Rifle(playerX + size, playerY + (int) (size / 2));
 
     }
 
@@ -48,20 +54,9 @@ public class Player {
     }
 
 
-
-
-
-
-
     public void aPressed(float delta, float stateTime) {
         lastX = playerX;
         playerX -= delta * speed;
-        if (!facing_left) {
-            for (TextureRegion t : animatsion.getKeyFrames()){
-                t.flip(true, false);
-            }
-            facing_left = true;
-        }
     }
 
     public void wPressed(float delta) {
@@ -77,21 +72,25 @@ public class Player {
     public void dPressed(float delta, float stateTime) {
         lastX = playerX;
         playerX += delta * speed;
-        if (facing_left) {
-            for (TextureRegion t : animatsion.getKeyFrames()){
-                t.flip(true, false);
-            }
-            facing_left = false;
-        }
     }
 
-    public PlayerProjectile leftClickPressed(float delta) {
+    public void draw(Batch batch, float stateTime) {
+
+        int mX = Gdx.input.getX() - (Gdx.graphics.getWidth() / 2); // <kaugus vasakust äärest> -
+        int mY = Gdx.graphics.getHeight() / 2 - Gdx.input.getY(); //
+        facing_left = 0 < mX;
+
+        batch.draw((animatsion.getKeyFrame(stateTime, true)), facing_left ? playerX + size : playerX, playerY, facing_left ? -size : size, size);
+
+        weapon.draw(batch, playerX, playerY, playerX + mX, playerY + mY);
+    }
+
+    public BulletClass[] leftClickPressed(float delta, float stateTime) {
         // translates coordinates to the center
         int mX = Gdx.input.getX() - (Gdx.graphics.getWidth() / 2); // <kaugus vasakust äärest> -
         int mY = Gdx.graphics.getHeight() / 2 - Gdx.input.getY(); //
 
-        PlayerProjectile playerProjectile = new PlayerProjectile(this, mX, mY);
+        return weapon.shootAtXY(mX,mY,stateTime);
 
-        return playerProjectile;
     }
 }
